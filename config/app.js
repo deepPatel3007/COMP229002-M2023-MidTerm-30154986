@@ -6,8 +6,11 @@ let logger = require('morgan');
 let session = require('express-session');
 let flash = require('connect-flash');
 let passport = require('passport');
+const mongoose = require('mongoose');
+
 
 let app = express();
+
 
 app.use(session({
   saveUninitialized: true,
@@ -15,7 +18,7 @@ app.use(session({
   secret: "sessionSecret"
 }));
 
-
+//define routes
 let indexRouter = require('../routes/index');
 let usersRouter = require('../routes/users');
 let carsRouter = require('../routes/car');

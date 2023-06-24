@@ -18,7 +18,7 @@ function requireAuth(req, res, next) {
 router.get('/list', carController.carList);
 
 // Route for Details
-router.get('/details/:id', carController.details);
+router.get('/details', carController.details);
 
 // Routes for edit (protected routes)
 router.get('/edit/:id', requireAuth, carController.displayEditPage);
