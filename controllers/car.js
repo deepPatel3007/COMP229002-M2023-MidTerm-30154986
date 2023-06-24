@@ -56,7 +56,7 @@ module.exports.processAddPage = (req, res, next) => {
         year: req.body.year
     };
     //Add new car to the database using the create method of the car model
-    Car.create(newCar, function(err, car) {
+    Car.create(newCar, function(err, Car) {
         if (err) {
           console.log(err);
           res.redirect('/cars/list');

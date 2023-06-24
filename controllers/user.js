@@ -51,34 +51,36 @@ module.exports.renderSignup = function(req, res, next) {
     return res.redirect('/');
   }
 };
-
-module.exports.signup = function(req, res, next) {
+//modifyed to use promise instead of User-call back function to handle errors
+module.exports.signup = async function(req, res, next) {
   if (!req.user && req.body.password === req.body.password_confirm) {
-    console.log(req.body);
+    try {
+      console.log(req.body);
 
-    let user = new User(req.body);
-    console.log(user);
+      let user = new User(req.body);
+      console.log(user);
 
-    user.save((err) => {
-      if (err) {
-        let message = getErrorMessage(err);
+      await user.save();
 
-        req.flash('error', message);
-        return res.render('auth/signup', {
-          title: 'Sign-up Form',
-          messages: req.flash('error'),
-          user: user
-        });
-      }
       req.login(user, (err) => {
         if (err) return next(err);
         return res.redirect('/');
       });
-    });
+    } catch (err) {
+      let message = getErrorMessage(err);
+
+      req.flash('error', message);
+      return res.render('auth/signup', {
+        title: 'Sign-up Form',
+        messages: req.flash('error'),
+        user: user
+      });
+    }
   } else {
     return res.redirect('/');
   }
 };
+
 
 module.exports.signout = function(req, res, next) {
   req.logout();
